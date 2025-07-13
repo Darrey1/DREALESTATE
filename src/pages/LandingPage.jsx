@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
+import ChatInterface from "../components/ChatInterface";
+import { MessageSquare } from "lucide-react";
 // Placeholder avatars
 const avatars = [
   "https://randomuser.me/api/portraits/women/44.jpg",
@@ -8,6 +10,7 @@ const avatars = [
 ];
 
 export default function LandingPage() {
+  const [chatOpen, setChatOpen] = useState(false);
     const navigate = useNavigate();
     const handleGetStarted = () => {
         navigate('/login');
@@ -273,6 +276,23 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* AI Assistant Button */}
+      <div className="fixed bottom-6 right-6">
+          <button
+              onClick={() => setChatOpen(!chatOpen)}
+              className="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center shadow-lg hover:bg-blue-700 transition-colors"
+          >
+              <MessageSquare className="h-8 w-8" />
+          </button>
+      </div>
+
+      {/* AI Chat Interface */}
+      {chatOpen && (
+          <div className="fixed bottom-24 right-6 w-96 h-96 bg-white rounded-lg shadow-xl border border-gray-200 overflow-hidden">
+              <ChatInterface onClose={() => setChatOpen(false)} />
+          </div>
+      )}
     </div>
   );
 }
